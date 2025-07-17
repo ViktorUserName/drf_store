@@ -1,0 +1,48 @@
+POST http://127.0.0.1:8000/api/pizzas/ HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "string",
+  "size": "small",
+  "image": "pizzas/big_meat.webp"
+}
+
+###
+
+POST http://localhost:8000/api/pizzas/
+Content-Type: application/json
+
+{
+  "name": "Hawaiian",
+  "category": "classic",
+  "description": "С ананасами и ветчиной",
+  "image": "pizzas/hawaiian.webp"
+}
+
+###
+
+POST http://localhost:8000/api/orders/
+Content-Type: application/json
+
+{
+  "items": [
+    {
+      "pizza": {
+        "id": 14
+      },
+      "size": "S"
+    },
+    {
+      "pizza": {
+        "id": 14
+      },
+      "size": "M"
+    },
+    {
+      "pizza": {
+        "id": 13
+      },
+      "size": "S"
+    }
+  ]
+}
