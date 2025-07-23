@@ -4,19 +4,26 @@ from pizza.models import Pizza, PizzaSize
 from settings import settings
 
 
+class PizzaSizeDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PizzaSize
+        fields = ("id", "size", "price")
+
 class PizzaSerializer(serializers.ModelSerializer):
     image_url = serializers.SerializerMethodField()
-    sizes = serializers.SerializerMethodField()
+    # sizes = serializers.SerializerMethodField()
     # pizza_id = serializers.SerializerMethodField()
+    sizes = PizzaSizeDetailSerializer(many=True, read_only=True)
+    price =  serializers.SerializerMethodField()
 
     class Meta:
         model = Pizza
-        fields = ('id', 'name', 'sizes','image', 'image_url', 'category', 'description')
+        fields = ('id', 'name', 'sizes','image', 'image_url', 'category', 'description', 'price')
 
     # def get_pizza_id(self, instance):
     #     return instance.sizes.id
 
-    def get_sizes(self, obj):
+    def get_price(self, obj):
         return {
             size.size : size.price for size in obj.sizes.all()
         }

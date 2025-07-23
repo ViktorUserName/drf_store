@@ -1,9 +1,10 @@
 from rest_framework import viewsets, status, serializers
 from rest_framework.response import Response
 
-from cart.models import Order, OrderItem
+from cart.models import Order, OrderItem, OrderPizzaItem
 from pizza.models import PizzaSize
-from .serializers import OrderItemSerializer, OrderSerializer, OrderCreateSerializer, PizzaSizeSerializer
+from .serializers import OrderItemSerializer, OrderSerializer, OrderCreateSerializer, PizzaSizeSerializer, \
+    OrderPizzaItemSerializer
 
 
 class OrderViewSet(viewsets.ModelViewSet):
@@ -23,3 +24,9 @@ class PizzaSizeViewSet(viewsets.ModelViewSet):
 class OrderItemViewSet(viewsets.ModelViewSet):
     queryset = OrderItem.objects.all()
     serializer_class = OrderItemSerializer
+
+# ------------
+
+class OrderPizzaItemViewSet(viewsets.ModelViewSet):
+    queryset = OrderPizzaItem.objects.all()
+    serializer_class = OrderPizzaItemSerializer

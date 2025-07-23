@@ -2,7 +2,7 @@ import uuid
 
 from django.db import models
 
-from pizza.models import PizzaSize
+from pizza.models import PizzaSize, Pizza
 
 
 class Order(models.Model):
@@ -12,6 +12,8 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Order #{self.id} on {self.date} at {self.time}"
+
+
 
 
 class OrderItem(models.Model):
@@ -37,3 +39,20 @@ class OrderItem(models.Model):
             f"{self.quantity} x {self.pizza_size.pizza.name} "
             f"({self.pizza_size.get_size_display()}) for Order #{self.order.id}"
         )
+
+# --------
+class OrderPizza(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    date = models.DateField(auto_now_add=True)
+    time = models.TimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Order #{self.id} on {self.date} at {self.time}"
+
+
+class OrderPizzaItem(models.Model):
+    order = models.ForeignKey(OrderPizza, on_delete=models.CASCADE, related_name="pizza_items")
+    pizza = models.ForeignKey(Pizza, on_delete=models.PROTECT, related_name="order_pizza_items")
+    pizza_size = models.ForeignKey(PizzaSize, on_delete=models.PROTECT, related_name="order_pizza_items")
+
+    quantity = models.PositiveIntegerField(default=1)

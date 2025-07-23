@@ -6,6 +6,7 @@ class Pizza(models.Model):
     description = models.TextField(default="no description")
     image = models.CharField(max_length=255, default="", help_text="Пример: pizzas/hawaiian.webp")
 
+
     def __str__(self):
         return self.name
 

@@ -27,11 +27,11 @@ Content-Type: application/json
     {
       "items": [
       {
-          "pizza_size": 1,
+          "pizza_size": 10,
           "quantity": 1
             },
         {
-          "pizza_size": 2,
+          "pizza_size": 10,
           "quantity": 1
             }
         ]

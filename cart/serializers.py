@@ -38,7 +38,7 @@
 from django.db import transaction
 from rest_framework import serializers
 
-from cart.models import OrderItem, Order
+from cart.models import OrderItem, Order, OrderPizzaItem
 from pizza.models import PizzaSize
 
 
@@ -48,7 +48,7 @@ class PizzaSizeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PizzaSize
-        fields = ("pizza_id", 'pizza_name', "price", "size")
+        fields = ("id","pizza_id", 'pizza_name', "price", "size")
 
 
 
@@ -127,5 +127,19 @@ class OrderCreateSerializer(serializers.ModelSerializer):
 
 
 
+# ----------------
+
+class OrderPizzaItemSerializer(serializers.ModelSerializer):
+   pizza_name = serializers.CharField(source='pizza.name')
+   pizza_size = serializers.CharField(source='pizza_size.size')
+   pizza_price = serializers.CharField(source='pizza_size.price')
+
+   class Meta:
+       model = OrderPizzaItem
+       fields = ("pizza_name", 'order', 'pizza', 'quantity', 'pizza_size', 'pizza_price')
 
 
+class OrderPizzaItemCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderPizzaItem
+        fields = ('order_id', 'pizza_size', 'quantity')
