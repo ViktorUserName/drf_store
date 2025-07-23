@@ -24,25 +24,15 @@ Content-Type: application/json
 POST http://localhost:8000/api/orders/
 Content-Type: application/json
 
-{
-  "items": [
     {
-      "pizza": {
-        "id": 14
-      },
-      "size": "S"
-    },
-    {
-      "pizza": {
-        "id": 14
-      },
-      "size": "M"
-    },
-    {
-      "pizza": {
-        "id": 13
-      },
-      "size": "S"
+      "items": [
+      {
+          "pizza_size": 1,
+          "quantity": 1
+            },
+        {
+          "pizza_size": 2,
+          "quantity": 1
+            }
+        ]
     }
-  ]
-}

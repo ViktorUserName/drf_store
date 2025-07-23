@@ -6,8 +6,8 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from pizza.models import Pizza
-from pizza.serializers import PizzaSerializer
+from pizza.models import Pizza, PizzaSize
+from pizza.serializers import PizzaSerializer, PizzaSizeSerializer
 
 
 class PizzaViewSet(viewsets.ModelViewSet):
@@ -20,6 +20,12 @@ class PizzaViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class PizzaSizeViewSet(viewsets.ModelViewSet):
+    queryset = PizzaSize.objects.all()
+    serializer_class = PizzaSizeSerializer
+
 
 
 class PizzaOfTheDayViewSet(APIView):
