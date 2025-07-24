@@ -8,8 +8,9 @@ router = DefaultRouter()
 router.register(r'pizzas', PizzaViewSet, basename='pizza')
 router.register(r'pizza-size', PizzaSizeViewSet, basename='pizza-size')
 
-urlpatterns = [
+custom_urlpatterns = [
     path(r'pizza-of-the-day/', PizzaOfTheDayViewSet.as_view(), name='pizza-of-the-day')
 ]
 
-urlpatterns = router.urls
+
+urlpatterns = router.urls + custom_urlpatterns

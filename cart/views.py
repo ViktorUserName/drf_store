@@ -1,10 +1,11 @@
+import time
+
 from rest_framework import viewsets, status, serializers
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
-from cart.models import Order, OrderItem, OrderPizzaItem
-from pizza.models import PizzaSize
-from .serializers import OrderItemSerializer, OrderSerializer, OrderCreateSerializer, PizzaSizeSerializer, \
-    OrderPizzaItemSerializer
+from cart.models import Order, OrderItem
+from .serializers import OrderItemSerializer, OrderSerializer, OrderCreateSerializer, PastOrdersReadSerializer
 
 
 class OrderViewSet(viewsets.ModelViewSet):
@@ -17,16 +18,22 @@ class OrderViewSet(viewsets.ModelViewSet):
         return super().get_serializer_class()
 
 
-class PizzaSizeViewSet(viewsets.ModelViewSet):
-    queryset = PizzaSize.objects.all()
-    serializer_class = PizzaSizeSerializer
-
 class OrderItemViewSet(viewsets.ModelViewSet):
     queryset = OrderItem.objects.all()
     serializer_class = OrderItemSerializer
 
-# ------------
 
-class OrderPizzaItemViewSet(viewsets.ModelViewSet):
-    queryset = OrderPizzaItem.objects.all()
-    serializer_class = OrderPizzaItemSerializer
+class PastOrderViewSet(viewsets.ModelViewSet):
+    class PastOrdersPagination(PageNumberPagination):
+        page_size = 10
+        page_size_query_param = 'page_size'
+        max_page_size = 100
+
+    queryset = Order.objects.all()
+    serializer_class = PastOrdersReadSerializer
+    pagination_class = PastOrdersPagination
+
+    def get_queryset(self):
+        # Задержка будет применяться при каждом получении queryset
+        time.sleep(1)
+        return super().get_queryset()

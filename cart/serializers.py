@@ -1,55 +1,6 @@
-# from django.db import transaction
-# from rest_framework import serializers
-#
-# from cart.models import OrderItem, Order
-# from pizza.models import PizzaSize
-#
-#
-# class OrderItemSerializer(serializers.ModelSerializer):
-#     pizza_id = serializers.IntegerField(source='pizza_size.id')
-#     pizza_name = serializers.CharField(source='pizza_size.pizza.name')
-#     pizza_price = serializers.DecimalField(source='pizza_size.price', decimal_places=2, max_digits=5)
-#     pizza_size = serializers.CharField(source='pizza_size.size')
-#
-#     class Meta:
-#         model = OrderItem
-#         fields = ("pizza_id", 'pizza_name', "quantity", "pizza_size", "pizza_price", "item_subtotal")
-#
-#
-# class OrderSerializer(serializers.ModelSerializer):
-#     order_id = serializers.UUIDField(read_only=True)
-#     items = OrderItemSerializer(many=True, read_only=True)
-#     total= serializers.SerializerMethodField()
-#
-#     def get_total(self, obj):
-#         order_items = obj.items.all()
-#         return sum(item.item_subtotal for item in order_items)
-#
-#     class Meta:
-#         model = Order
-#         fields = ("order_id",
-#                   "date",
-#                   "time",
-#                   "items",
-#                   "total",
-#                   )
-
-
 from django.db import transaction
 from rest_framework import serializers
-
-from cart.models import OrderItem, Order, OrderPizzaItem
-from pizza.models import PizzaSize
-
-
-class PizzaSizeSerializer(serializers.ModelSerializer):
-    pizza_id = serializers.IntegerField(source='pizza.id')
-    pizza_name = serializers.CharField(source='pizza.name')
-
-    class Meta:
-        model = PizzaSize
-        fields = ("id","pizza_id", 'pizza_name', "price", "size")
-
+from cart.models import OrderItem, Order
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
@@ -80,6 +31,13 @@ class OrderSerializer(serializers.ModelSerializer):
                   "items",
                   "total",
                   )
+
+
+class PastOrdersReadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = '__all__'
+
 
 class OrderCreateSerializer(serializers.ModelSerializer):
     class OrderItemCreateSerializer(serializers.ModelSerializer):
@@ -125,21 +83,3 @@ class OrderCreateSerializer(serializers.ModelSerializer):
             'items',
         )
 
-
-
-# ----------------
-
-class OrderPizzaItemSerializer(serializers.ModelSerializer):
-   pizza_name = serializers.CharField(source='pizza.name')
-   pizza_size = serializers.CharField(source='pizza_size.size')
-   pizza_price = serializers.CharField(source='pizza_size.price')
-
-   class Meta:
-       model = OrderPizzaItem
-       fields = ("pizza_name", 'order', 'pizza', 'quantity', 'pizza_size', 'pizza_price')
-
-
-class OrderPizzaItemCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = OrderPizzaItem
-        fields = ('order_id', 'pizza_size', 'quantity')

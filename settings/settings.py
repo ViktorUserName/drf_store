@@ -31,7 +31,9 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ),
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    # 'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    # 'PAGE_SIZE': 10,
 }
 
 MIDDLEWARE = [
@@ -50,8 +52,8 @@ ROOT_URLCONF = 'settings.urls'  # ✅ корректно
 WSGI_APPLICATION = 'settings.wsgi.application'  # ✅ корректно
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
+    "http://localhost:5174",
+    "http://127.0.0.1:5174",
 ]
 
 CORS_ALLOW_CREDENTIALS = True

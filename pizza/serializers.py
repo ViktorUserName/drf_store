@@ -11,17 +11,12 @@ class PizzaSizeDetailSerializer(serializers.ModelSerializer):
 
 class PizzaSerializer(serializers.ModelSerializer):
     image_url = serializers.SerializerMethodField()
-    # sizes = serializers.SerializerMethodField()
-    # pizza_id = serializers.SerializerMethodField()
     sizes = PizzaSizeDetailSerializer(many=True, read_only=True)
     price =  serializers.SerializerMethodField()
 
     class Meta:
         model = Pizza
         fields = ('id', 'name', 'sizes','image', 'image_url', 'category', 'description', 'price')
-
-    # def get_pizza_id(self, instance):
-    #     return instance.sizes.id
 
     def get_price(self, obj):
         return {
