@@ -1,5 +1,7 @@
 from django.db import transaction
 from rest_framework import serializers
+
+import settings
 from cart.models import OrderItem, Order
 
 
@@ -31,6 +33,31 @@ class OrderSerializer(serializers.ModelSerializer):
                   "items",
                   "total",
                   )
+
+
+class PastOrderDetailSerializer(serializers.ModelSerializer):
+    class OrderItemDetailSerializer(serializers.ModelSerializer):
+        pizza_id = serializers.IntegerField(source='pizza_size.pizza.id')
+        pizza_name = serializers.CharField(source='pizza_size.pizza.name')
+        pizza_price = serializers.DecimalField(source='pizza_size.price', decimal_places=2, max_digits=5)
+        pizza_size = serializers.CharField(source='pizza_size.size')
+        pizza_img = serializers.SerializerMethodField()
+
+        class Meta:
+            model = OrderItem
+            fields = ("pizza_id", 'pizza_name','pizza_size', "quantity", "pizza_price", 'pizza_img')
+
+        def get_pizza_img(self, obj):
+            image_url_string = None
+            if obj.pizza_size and obj.pizza_size.pizza:
+                image_url_string = 'http://127.0.0.1:8000/media/' + obj.pizza_size.pizza.image
+            return  image_url_string
+
+    items = OrderItemDetailSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Order
+        fields = ('id', 'date', 'items')
 
 
 class PastOrdersReadSerializer(serializers.ModelSerializer):
