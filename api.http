@@ -42,3 +42,14 @@ Content-Type: application/json
 
 GET http://localhost:8000/pizza/day-pizza/
 Content-Type: application/json
+
+###
+
+POST http://localhost:8000/contact/
+Content-Type: application/json
+
+{
+  "name": "name",
+  "email": "vita@gmail.com",
+  "message": "ddwqqwd"
+}

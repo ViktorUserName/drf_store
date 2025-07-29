@@ -23,7 +23,8 @@ INSTALLED_APPS = [
     'drf_spectacular',
 
     'pizza.apps.PizzaConfig',
-    'cart.apps.CartConfig'
+    'cart.apps.CartConfig',
+    'contact.apps.ContactConfig'
 ]
 
 REST_FRAMEWORK = {
