@@ -14,11 +14,16 @@ services:
       - "5432:5432"
     restart: always
 
-  redis:
-    image: redis:7.0-alpine
-    container_name: redis
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: rabbitmq
+    hostname: rabbitmq
     ports:
-      - "6379:6379"
+      - "5672:5672"   # Порт для AMQP (брокер сообщений)
+      - "15672:15672" # Порт для веб-интерфейса управления
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
     restart: always
 
   web:
@@ -33,7 +38,7 @@ services:
       - 8000
     depends_on:
       - db
-      - redis
+      - rabbitmq
     env_file:
       - .env
     restart: always
@@ -45,7 +50,7 @@ services:
     volumes:
       - .:/app
     depends_on:
-      - redis
+      - rabbitmq
     env_file:
       - .env
     restart: always
