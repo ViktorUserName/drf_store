@@ -1,3 +1,4 @@
+gunicorn==21.2.0
 amqp==5.3.1
 asgiref==3.9.1
 attrs==25.3.0
