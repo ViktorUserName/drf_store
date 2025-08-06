@@ -19,8 +19,8 @@ services:
     container_name: rabbitmq
     hostname: rabbitmq
     ports:
-      - "5672:5672"   # Порт для AMQP (брокер сообщений)
-      - "15672:15672" # Порт для веб-интерфейса управления
+      - "5672:5672"
+      - "15672:15672"
     environment:
       RABBITMQ_DEFAULT_USER: user
       RABBITMQ_DEFAULT_PASS: password
@@ -29,9 +29,11 @@ services:
   web:
     build: .
     container_name: web
-    command: gunicorn settings.wsgi:application --bind 0.0.0.0:8000
+    command: >
+      sh -c "python manage.py makemigrations &&
+             python manage.py migrate &&
+             gunicorn settings.wsgi:application --bind 0.0.0.0:8000"
     volumes:
-      - .:/app
       - static_root_volume:/app/static_root
       - media_volume:/app/media
     expose:
@@ -48,7 +50,7 @@ services:
     container_name: celery_worker
     command: celery -A settings worker -l info
     volumes:
-      - .:/app
+      - media_volume:/app/media
     depends_on:
       - rabbitmq
     env_file:
