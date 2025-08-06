@@ -144,3 +144,10 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 ADMIN_EMAIL = config('ADMIN_EMAIL', default='')
+
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_root') # Добавь эту строку
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
