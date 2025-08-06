@@ -5,8 +5,6 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Копируем файл зависимостей и устанавливаем их
-# Установка зависимостей до копирования всего кода позволяет Docker кэшировать этот шаг
-# Если зависимости не меняются, последующие сборки будут быстрее
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
