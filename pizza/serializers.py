@@ -16,18 +16,21 @@ class PizzaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Pizza
-        fields = ('id', 'name', 'sizes','image', 'image_url', 'category', 'description', 'price')
+        fields = ('id', 'name', 'sizes','image','image_url', 'category', 'description', 'price')
 
     def get_price(self, obj):
         return {
-            size.size : size.price for size in obj.sizes.all()
+            size.size: size.price for size in obj.sizes.all()
         }
 
     def get_image_url(self, obj):
         request = self.context.get('request')
         if obj.image:
+            host = request.get_host()
+            scheme = request.scheme
+
             relative_url = f"{settings.MEDIA_URL}{obj.image}"
-            return request.build_absolute_uri(relative_url) if request else relative_url
+            return f"{scheme}://{host}{relative_url}"
         return None
 
 
@@ -38,9 +41,7 @@ class PizzaSizeSerializer(serializers.ModelSerializer):
     category = serializers.CharField(source='pizza.category')
     description = serializers.CharField(source='pizza.description')
     image_url = serializers.SerializerMethodField()
-    # price = serializers.SerializerMethodField()
 
-    # fields = ('id', 'name', 'sizes', 'image', 'image_url', 'category', 'description')
 
     class Meta:
         model = PizzaSize
@@ -49,6 +50,12 @@ class PizzaSizeSerializer(serializers.ModelSerializer):
     def get_image_url(self, obj):
         request = self.context.get('request')
         if obj.pizza.image:
+            # Получаем имя хоста из запроса
+            host = request.get_host()
+            # Протокол, который использовал клиент (http или https)
+            scheme = request.scheme
+
+            # Собираем URL без порта 8000
             relative_url = f"{settings.MEDIA_URL}{obj.pizza.image}"
-            return request.build_absolute_uri(relative_url) if request else relative_url
+            return f"{scheme}://{host}{relative_url}"
         return None

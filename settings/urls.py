@@ -4,7 +4,7 @@ from django.urls import path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 from rest_framework.routers import DefaultRouter
 
-
+from settings import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -17,3 +17,5 @@ urlpatterns = [
     path('schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]
 
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
