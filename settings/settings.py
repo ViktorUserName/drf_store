@@ -5,7 +5,7 @@ from decouple import config
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
-# DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: v.split(','))
 
 
@@ -151,3 +151,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_root') # Добавь эту стр
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
