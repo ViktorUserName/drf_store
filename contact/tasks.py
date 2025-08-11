@@ -21,11 +21,11 @@ def send_mail_task(*args, **kwargs):
         send_mail(subject, email_message, from_email, recipient_list, fail_silently=False)
         print(f'Письмо от {name} успешно отправлено на {settings.ADMIN_EMAIL}')
 
-        ContactMessage.objects.create(
-            name=name,
-            email=email,
-            message=message,
-        )
+        # ContactMessage.objects.create(
+        #     name=name,
+        #     email=email,
+        #     message=message,
+        # )
         print(f'Message was saved {name}')
     except Exception as e:
         print(f'Error in task: {e}')
