@@ -48,10 +48,17 @@ class PastOrderDetailSerializer(serializers.ModelSerializer):
             fields = ("pizza_id", 'pizza_name','pizza_size', "quantity", "pizza_price", 'pizza_img')
 
         def get_pizza_img(self, obj):
-            image_url_string = None
-            if obj.pizza_size and obj.pizza_size.pizza:
-                image_url_string = 'http://127.0.0.1:8000/media/' + obj.pizza_size.pizza.image
-            return  image_url_string
+            request = self.context.get('request')
+            if obj.pizza.image:
+                # Получаем имя хоста из запроса
+                host = request.get_host()
+                # Протокол, который использовал клиент (http или https)
+                scheme = request.scheme
+
+                # Собираем URL без порта 8000
+                relative_url = f"{settings.MEDIA_URL}{obj.pizza.image}"
+                return f"{scheme}://{host}{relative_url}"
+            return None
 
     items = OrderItemDetailSerializer(many=True, read_only=True)
 
