@@ -49,7 +49,7 @@ services:
   celery_worker:
     build: .
     container_name: celery_worker
-    command: celery -A settings worker -l info
+    command: celery -A settings worker --loglevel=info --pool=eventlet
     volumes:
       - media_volume:/app/media
     depends_on:
