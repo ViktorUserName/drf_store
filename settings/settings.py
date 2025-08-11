@@ -9,8 +9,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: v.split(','))
 
 
-# CELERY_BROKER_URL = config('CELERY_BROKER_URL')
-CELERY_BROKER_URL = 'amqp://user:password@rabbitmq:5672/'
+CELERY_BROKER_URL = config('CELERY_BROKER_URL')
 
 CELERY_RESULT_BACKEND = 'rpc://'
 CELERY_TASK_DEFAULT_QUEUE = 'contact_messages'
