@@ -1,7 +1,7 @@
 from django.db import transaction
 from rest_framework import serializers
 
-import settings
+from django.conf import settings
 from cart.models import OrderItem, Order
 
 
@@ -49,14 +49,15 @@ class PastOrderDetailSerializer(serializers.ModelSerializer):
 
         def get_pizza_img(self, obj):
             request = self.context.get('request')
-            if obj.pizza.image:
-                # Получаем имя хоста из запроса
+            if not request:
+                return None  # Возвращаем None, если объект request недоступен
+
+            if obj.pizza_size and obj.pizza_size.pizza and obj.pizza_size.pizza.image:
                 host = request.get_host()
-                # Протокол, который использовал клиент (http или https)
                 scheme = request.scheme
 
-                # Собираем URL без порта 8000
-                relative_url = f"{settings.MEDIA_URL}{obj.pizza.image}"
+                # Используем MEDIA_URL из настроек
+                relative_url = f"{settings.MEDIA_URL}{obj.pizza_size.pizza.image}"
                 return f"{scheme}://{host}{relative_url}"
             return None
 
