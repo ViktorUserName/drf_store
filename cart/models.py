@@ -13,6 +13,9 @@ class Order(models.Model):
     def __str__(self):
         return f"Order #{self.id} on {self.date} at {self.time}"
 
+    class Meta:
+        ordering = ['-date']
+
 
 
 
