@@ -83,7 +83,7 @@ services:
       - media_volume:/app/media
     depends_on:
       - web
-      - react_app
+      - react
     restart: always
 
 volumes:
