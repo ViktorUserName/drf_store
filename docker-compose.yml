@@ -79,6 +79,7 @@ services:
       - "80:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./react_app/dist:/app/dist
       - static_root_volume:/app/static_root
       - media_volume:/app/media
     depends_on:
